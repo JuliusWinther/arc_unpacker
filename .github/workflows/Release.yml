@@ -1,6 +1,10 @@
 name: Cross-Compile Project for Windows
 
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Adjust to your main branch name
+  workflow_dispatch:  # Enable manual execution
 
 jobs:
   cross_compile:
