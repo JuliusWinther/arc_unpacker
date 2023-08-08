@@ -1,41 +1,32 @@
-name: Build Project
+name: Cross-Compile Project for Windows
 
 on: [push]
 
 jobs:
-  build:
+  cross_compile:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up CMake
-      uses: actions/setup-cmake@v2
-      with:
-        cmake-version: '3.21'  # You can adjust this version if needed
-
-    - name: Install Dependencies
+    - name: Install MXE dependencies and cross-compiler
       run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          g++ \
-          libboost-locale-dev \
-          libboost-filesystem-dev \
-          libpng-dev \
-          libjpeg-dev \
-          zlib1g-dev \
-          libssl-dev \
-          libwebp-dev
+        git clone https://github.com/mxe/mxe.git
+        cd mxe
+        MXE_GCC_THREADS=posix \
+        MXE_PLUGIN_DIRS=plugins/gcc6/ \
+        make libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
+        cd ..
 
-    - name: Create Build Directory
-      run: mkdir build
+    - name: Create MXE build directory
+      run: mkdir build-mxe
 
-    - name: Configure and Build
+    - name: Configure and cross-compile project for Windows
       run: |
-        cd build
-        cmake -DCMAKE_BUILD_TYPE=Release ..
+        cd build-mxe
+        ../mxe/usr/bin/i686-w64-mingw32.static-cmake ..
         make -j8
 
-    - name: List Executables
-      run: ls build/
+    - name: List cross-compiled executables
+      run: ls build-mxe/
