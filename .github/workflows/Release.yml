@@ -35,7 +35,7 @@ jobs:
 
     - name: Configure and cross-compile project for Windows
       run: |
-        ../arc_unpacker/arc_unpacker/mxe/usr/bin/i686-w64-mingw32.static-cmake .
+        ../arc_unpacker/arc_unpacker/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
         make -j8
 
     - name: List cross-compiled executables
