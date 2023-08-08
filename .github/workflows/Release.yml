@@ -56,14 +56,12 @@ jobs:
           Release notes and description here.
         draft: false
         prerelease: false
-
+        
     - name: Upload release assets
       id: upload-release-assets
-      uses: actions/upload-release-assets@v1
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build-mxe
-        asset_name: build-mxe
-        asset_content_type: application/zip
+        files: ./build-mxe/*
+
