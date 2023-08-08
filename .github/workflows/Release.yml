@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up CMake
-      uses: cmake/setup-cmake@v2
+      uses: cmake/setup-cmake-action@v2
       with:
         cmake-version: '3.21'
 
@@ -83,3 +83,8 @@ jobs:
     - name: Cross-Compile and Build (Windows)
       run: |
         cd build-mxe
+        ~/path/to/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
+        make -j8
+
+    - name: List Executables (Windows)
+      run: ls build-mxe/
