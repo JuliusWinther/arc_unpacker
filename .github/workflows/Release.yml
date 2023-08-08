@@ -17,7 +17,7 @@ jobs:
     - name: Install additional build dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y autopoint gperf intltool libtool lzip python3-mako
+        sudo apt-get install -y python3 python3-pip autopoint gperf intltool libtool lzip python3-mako
 
     - name: Install MXE dependencies and cross-compiler
       run: |
