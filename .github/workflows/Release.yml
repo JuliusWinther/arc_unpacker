@@ -10,6 +10,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Install additional build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y autopoint gperf intltool libtool lzip mako
+
     - name: Install MXE dependencies and cross-compiler
       run: |
         git clone https://github.com/mxe/mxe.git
@@ -18,11 +23,6 @@ jobs:
         MXE_PLUGIN_DIRS=plugins/gcc6/ \
         make MXE_TARGETS=i686-w64-mingw32.shared libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
         cd ..
-
-    - name: Install additional build dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y autopoint gperf intltool libtool lzip mako
 
     - name: Create MXE build directory
       run: mkdir build-mxe
