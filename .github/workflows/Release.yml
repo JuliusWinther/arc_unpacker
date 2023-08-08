@@ -31,13 +31,39 @@ jobs:
         cd ..
 
     - name: Create MXE build directory
-      run: mkdir build-mxe
+      run: mkdir ../build-mxe
 
     - name: Configure and cross-compile project for Windows
       run: |
-        cd build-mxe
-        /home/runner/work/arc_unpacker/arc_unpacker/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
+        /home/runner/work/arc_unpacker/arc_unpacker/mxe/usr/bin/i686-w64-mingw32.static-cmake .
         make -j8
 
     - name: List cross-compiled executables
-      run: ls build-mxe/
+      run: ls ../build-mxe/
+
+    - name: Prepare files for release
+      run: mv ../build-mxe $GITHUB_WORKSPACE
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v1.0.0  # Modify with your desired tag name
+        release_name: Release 1.0.0  # Modify with your desired release name
+        body: |
+          Release notes and description here.
+        draft: false
+        prerelease: false
+
+    - name: Upload release assets
+      id: upload-release-assets
+      uses: actions/upload-release-assets@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build-mxe
+        asset_name: build-mxe
+        asset_content_type: application/zip
