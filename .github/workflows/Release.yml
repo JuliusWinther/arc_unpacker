@@ -1,0 +1,85 @@
+name: Build Project
+
+on: [push]
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up CMake
+      uses: actions/setup-cmake@v2
+      with:
+        cmake-version: '3.21'  # You can adjust this version if needed
+
+    - name: Install Dependencies (Linux)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          g++ \
+          libboost-locale-dev \
+          libboost-filesystem-dev \
+          libpng-dev \
+          libjpeg-dev \
+          zlib1g-dev \
+          libssl-dev \
+          libwebp-dev
+
+    - name: Create Build Directory (Linux)
+      run: mkdir build
+
+    - name: Configure and Build (Linux)
+      run: |
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=Release ..
+        make -j8
+
+    - name: List Executables (Linux)
+      run: ls build/
+
+  build_windows:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install MXE Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          git \
+          g++ \
+          make \
+          automake \
+          autoconf \
+          gettext \
+          autopoint \
+          libtool-bin \
+          intltool \
+          pkg-config
+
+    - name: Clone MXE Repository
+      run: git clone https://github.com/mxe/mxe.git
+
+    - name: Build MXE Dependencies
+      run: |
+        cd mxe
+        MXE_GCC_THREADS=posix \
+        MXE_PLUGIN_DIRS=plugins/gcc6/ \
+        make libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
+
+    - name: Create Build Directory (Windows)
+      run: mkdir build-mxe
+
+    - name: Cross-Compile and Build (Windows)
+      run: |
+        cd build-mxe
+        ~/path/to/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
+        make -j8
+
+    - name: List Executables (Windows)
+      run: ls build-mxe/
