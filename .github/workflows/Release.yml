@@ -3,7 +3,7 @@ name: Build Project
 on: [push]
 
 jobs:
-  build_linux:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -11,11 +11,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up CMake
-      uses: cmake/setup-cmake-action@v2
+      uses: actions/setup-cmake@v2
       with:
-        cmake-version: '3.21'
+        cmake-version: '3.21'  # You can adjust this version if needed
 
-    - name: Install Dependencies (Linux)
+    - name: Install Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -28,63 +28,14 @@ jobs:
           libssl-dev \
           libwebp-dev
 
-    - name: Create Build Directory (Linux)
+    - name: Create Build Directory
       run: mkdir build
 
-    - name: Configure and Build (Linux)
+    - name: Configure and Build
       run: |
         cd build
         cmake -DCMAKE_BUILD_TYPE=Release ..
         make -j8
 
-    - name: List Executables (Linux)
+    - name: List Executables
       run: ls build/
-
-  build_windows:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-
-    - name: Install MXE Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          git \
-          g++ \
-          make \
-          automake \
-          autoconf \
-          gettext \
-          autopoint \
-          libtool-bin \
-          intltool \
-          pkg-config
-
-    - name: Clone MXE Repository
-      run: git clone https://github.com/mxe/mxe.git
-
-    - name: Build MXE Dependencies
-      run: |
-        cd mxe
-        MXE_GCC_THREADS=posix \
-        MXE_PLUGIN_DIRS=plugins/gcc6/ \
-        make libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
-
-    - name: Create Build Directory (Windows)
-      run: mkdir build-mxe
-
-    - name: Cross-Compile and Build (Windows)
-      run: |
-        cd build-mxe
-        ~/path/to/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
-        make -j8
-
-    - name: List Executables (Windows)
-      run: ls build-mxe/
