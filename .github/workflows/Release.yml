@@ -1,16 +1,6 @@
 name: Cross-Compile Project for Windows
 
-on: 
-  workflow_dispatch:
-    inputs:
-      desc:
-        type: string
-        description: "Description for new release"
-        required: true
-        default: 'New Test Release'
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   cross_compile:
@@ -26,8 +16,13 @@ jobs:
         cd mxe
         MXE_GCC_THREADS=posix \
         MXE_PLUGIN_DIRS=plugins/gcc6/ \
-        make libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
+        make MXE_TARGETS=i686-w64-mingw32.shared libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
         cd ..
+
+    - name: Install additional build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y autopoint gperf intltool libtool lzip mako
 
     - name: Create MXE build directory
       run: mkdir build-mxe
@@ -35,7 +30,7 @@ jobs:
     - name: Configure and cross-compile project for Windows
       run: |
         cd build-mxe
-        ../mxe/usr/bin/i686-w64-mingw32.static-cmake ..
+        ~/path/to/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
         make -j8
 
     - name: List cross-compiled executables
