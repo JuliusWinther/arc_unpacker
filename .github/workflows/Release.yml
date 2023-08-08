@@ -1,6 +1,16 @@
 name: Cross-Compile Project for Windows
 
-on: [push]
+on: 
+  workflow_dispatch:
+    inputs:
+      desc:
+        type: string
+        description: "Description for new release"
+        required: true
+        default: 'New Test Release'
+  push:
+    branches:
+      - master
 
 jobs:
   cross_compile:
