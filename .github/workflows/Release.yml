@@ -18,6 +18,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y python3 python3-pip autopoint gperf intltool libtool lzip python3-mako
+        sudo apt-get update
+        sudo apt-get install libtool
 
     - name: Reboot system (for security)
       run: sudo reboot
