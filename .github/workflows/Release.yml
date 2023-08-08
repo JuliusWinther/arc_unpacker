@@ -21,13 +21,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install libtool
 
-    - name: Reboot system (for security)
-      run: sudo reboot
-      timeout-minutes: 1  # Imposta un timeout di 1 minuto per il riavvio
-
-    - name: Wait for system to restart
-      run: sleep 120  # Attendere 2 minuti per consentire il riavvio completo del sistema
-
     - name: Install MXE dependencies and cross-compiler
       run: |
         git clone https://github.com/mxe/mxe.git
