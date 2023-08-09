@@ -21,6 +21,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install libtool-bin
         sudo apt-get update
+        pwd
 
     - name: Install MXE dependencies and cross-compiler
       run: |
@@ -30,6 +31,7 @@ jobs:
         MXE_PLUGIN_DIRS=plugins/gcc6/ \
         make MXE_TARGETS=i686-w64-mingw32.shared libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
         cd ..
+        pwd
 
     - name: Cache installed libraries
       uses: actions/cache@v2
@@ -43,9 +45,11 @@ jobs:
 
     - name: Configure and cross-compile project for Windows
       run: |
+        ped
         cd ../build-mxe
         ../../../arc_unpacker/arc_unpacker/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
         make -j8
+        pwd
 
     - name: List cross-compiled executables
       run: ls ../build-mxe/
