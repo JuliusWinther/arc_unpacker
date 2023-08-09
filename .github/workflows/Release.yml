@@ -42,13 +42,13 @@ jobs:
         key: mxe-libraries-${{ hashFiles('**/mxe/usr') }}
 
     - name: Create MXE build directory
-      run: mkdir ../build-mxe
+      run: mkdir build-mxe
 
     - name: Configure and cross-compile project for Windows
       run: |
-        ped
-        cd ../build-mxe
-        ../../../arc_unpacker/arc_unpacker/mxe/usr/bin/i686-w64-mingw32.static-cmake ..
+        pwd
+        cd ./build-mxe
+        ../mxe/usr/bin/i686-w64-mingw32.static-cmake ..
         make -j8
         pwd
 
