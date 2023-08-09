@@ -48,7 +48,7 @@ jobs:
       run: |
         pwd
         cd ./build-mxe
-        ../mxe/usr/bin/i686-w64-mingw32.static-cmake ..
+        ../mxe/usr/bin/i686-w64-mingw32.static-cmake .
         make -j8
         pwd
 
