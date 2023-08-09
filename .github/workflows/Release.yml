@@ -25,6 +25,7 @@ jobs:
 
     - name: Install MXE dependencies and cross-compiler
       run: |
+        pwd
         git clone https://github.com/mxe/mxe.git
         cd mxe
         MXE_GCC_THREADS=posix \
