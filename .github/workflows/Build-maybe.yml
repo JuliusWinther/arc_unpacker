@@ -16,6 +16,10 @@ jobs:
            sudo apt-get update
            sudo apt-get upgrade -y
            sudo apt-get install libboost-all-dev libpng-dev libjpeg-dev libticonv-dev libghc-hsopenssl-dev libwebp-dev -y
+           sudo apt-get install -y python3 python3-pip autopoint gperf intltool libtool lzip python3-mako
+           sudo apt-get update
+           sudo apt-get install libtool-bin
+           sudo apt-get update
            cmake --version
            cmake -DCMAKE_BUILD_TYPE=release
            make arc_unpacker
