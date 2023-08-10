@@ -31,7 +31,7 @@ jobs:
         cd mxe
         MXE_GCC_THREADS=posix \
         MXE_PLUGIN_DIRS=plugins/gcc6/ \
-        make MXE_TARGETS=i686-w64-mingw32.shared libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
+            make libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
         ls
         cd ..
         pwd
