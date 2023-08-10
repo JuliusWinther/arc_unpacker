@@ -16,8 +16,6 @@ jobs:
            sudo apt-get update
            sudo apt-get upgrade -y
            sudo apt-get install libboost-all-dev libpng-dev libjpeg-dev libticonv-dev libghc-hsopenssl-dev libwebp-dev -y
-           mkdir build
-           cd build
            cmake --version
            cmake -DCMAKE_BUILD_TYPE=release
            make arc_unpacker
