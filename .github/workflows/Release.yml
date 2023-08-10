@@ -29,10 +29,10 @@ jobs:
         ls
         git clone https://github.com/mxe/mxe.git
         cd mxe
-        ls
         MXE_GCC_THREADS=posix \
         MXE_PLUGIN_DIRS=plugins/gcc6/ \
         make MXE_TARGETS=i686-w64-mingw32.shared libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
+        ls
         cd ..
         pwd
         ls
@@ -52,7 +52,7 @@ jobs:
         pwd
         cd ./build-mxe
         pwd
-        ls ../mxe/usr/bin/i686-w64-mingw32.static-cmake
+        ls ../mxe/usr/bin/
         ../mxe/usr/bin/i686-w64-mingw32.static-cmake
         make -j8
         pwd
