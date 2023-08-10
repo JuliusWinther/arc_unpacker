@@ -26,13 +26,16 @@ jobs:
     - name: Install MXE dependencies and cross-compiler
       run: |
         pwd
+        ls
         git clone https://github.com/mxe/mxe.git
         cd mxe
+        ls
         MXE_GCC_THREADS=posix \
         MXE_PLUGIN_DIRS=plugins/gcc6/ \
         make MXE_TARGETS=i686-w64-mingw32.shared libiconv zlib libpng jpeg boost openssl libwebp -j8 JOBS=8
         cd ..
         pwd
+        ls
 
     - name: Cache installed libraries
       uses: actions/cache@v2
@@ -48,12 +51,14 @@ jobs:
       run: |
         pwd
         cd ./build-mxe
-        ../mxe/usr/bin/i686-w64-mingw32.static-cmake .
+        pwd
+        ls ../mxe/usr/bin/i686-w64-mingw32.static-cmake
+        ../mxe/usr/bin/i686-w64-mingw32.static-cmake
         make -j8
         pwd
 
     - name: List cross-compiled executables
-      run: ls ../build-mxe/
+      run: ls
 
     - name: Create Release
       id: create_release
