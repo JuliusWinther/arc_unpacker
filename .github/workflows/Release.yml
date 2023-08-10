@@ -53,7 +53,7 @@ jobs:
         cd ./build-mxe
         pwd
         ls ../mxe/usr/bin/
-        ../mxe/usr/bin/i686-w64-mingw32.shared-cmake
+        ../mxe/usr/bin/i686-w64-mingw32.shared-cmake ..
         make -j8
         pwd
 
